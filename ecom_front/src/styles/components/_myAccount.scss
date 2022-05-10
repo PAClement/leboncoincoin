@@ -1,0 +1,32 @@
+.myAccount {
+
+  a {
+
+    border-bottom: 3px solid $color-2;
+
+    &:hover {
+      cursor: pointer;
+      border-bottom: 3px solid $color-1;
+
+
+      span {
+        color: $color-1;
+      }
+
+      p {
+        font-weight: 500;
+      }
+    }
+
+    span {
+      color: $color-3;
+    }
+  }
+}
+
+.accountGestion {
+
+  .modifInput {
+    background-color: $color-2;
+  }
+}
