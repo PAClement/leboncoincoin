@@ -1,5 +1,5 @@
 import React from 'react';
-import Card from '../components/Card';
+import Card from '../components/product/Card';
 import Footer from '../components/includes/Footer';
 import Header from '../components/includes/Header';
 
