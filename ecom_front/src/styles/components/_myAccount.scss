@@ -36,3 +36,16 @@
     background-color: $color-2;
   }
 }
+
+.Collapsible__trigger {
+  color: white;
+  background: $color-1;
+  border-radius: 5px;
+  font-size: 18px;
+  padding: 8px 10px;
+
+  &:hover {
+
+    background: rgba(255, 122, 0, 0.8);
+  }
+}

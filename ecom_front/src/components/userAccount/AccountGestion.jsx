@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 
 import { Link } from 'react-router-dom';
+import Loader from '../utilsGlobal/Loader';
 
 const AccountGestion = () => {
 
@@ -119,12 +120,7 @@ const AccountGestion = () => {
         <h2 className='orange-title text-center text-2xl mb-5'>Informations personnelles</h2>
 
         {loader ? (
-          <div className="flex justify-center items-center mt-10">
-            <div className="spinner-border animate-spin inline-block w-10 h-30 border-4 rounded-full" role="status">
-
-            </div>
-            <p className='text-white ml-2'>Loading</p>
-          </div>
+          <Loader title="Loading" color="white" />
         ) : (
           <>
             <div className='text-center'>

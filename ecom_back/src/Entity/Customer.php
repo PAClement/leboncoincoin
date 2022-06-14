@@ -78,20 +78,25 @@ class Customer implements PasswordAuthenticatedUserInterface
     #[Assert\NotBlank]
     private $uuid;
 
-    #[ORM\OneToMany(mappedBy: 'id_client', targetEntity: Message::class)]
-    private $messages;
-
-    #[ORM\OneToMany(mappedBy: 'id_client', targetEntity: Order::class)]
+    #[ORM\OneToMany(mappedBy: 'client', targetEntity: Order::class)]
     private $orders;
 
     #[ORM\OneToMany(mappedBy: 'Customer', targetEntity: Cart::class, orphanRemoval: true)]
     private $carts;
+
+    #[ORM\OneToMany(mappedBy: 'customer', targetEntity: Wishlist::class)]
+    private $wishlists;
+
+    #[ORM\OneToMany(mappedBy: 'customer', targetEntity: Ticket::class)]
+    private $tickets;
 
     public function __construct()
     {
         $this->messages = new ArrayCollection();
         $this->orders = new ArrayCollection();
         $this->carts = new ArrayCollection();
+        $this->wishlists = new ArrayCollection();
+        $this->tickets = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -232,36 +237,6 @@ class Customer implements PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection<int, Message>
-     */
-    public function getMessages(): Collection
-    {
-        return $this->messages;
-    }
-
-    public function addMessage(Message $message): self
-    {
-        if (!$this->messages->contains($message)) {
-            $this->messages[] = $message;
-            $message->setIdClient($this);
-        }
-
-        return $this;
-    }
-
-    public function removeMessage(Message $message): self
-    {
-        if ($this->messages->removeElement($message)) {
-            // set the owning side to null (unless already changed)
-            if ($message->getIdClient() === $this) {
-                $message->setIdClient(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
      * @return Collection<int, Order>
      */
     public function getOrders(): Collection
@@ -315,6 +290,66 @@ class Customer implements PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($cart->getCustomer() === $this) {
                 $cart->setCustomer(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Wishlist>
+     */
+    public function getWishlists(): Collection
+    {
+        return $this->wishlists;
+    }
+
+    public function addWishlist(Wishlist $wishlist): self
+    {
+        if (!$this->wishlists->contains($wishlist)) {
+            $this->wishlists[] = $wishlist;
+            $wishlist->setCustomer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeWishlist(Wishlist $wishlist): self
+    {
+        if ($this->wishlists->removeElement($wishlist)) {
+            // set the owning side to null (unless already changed)
+            if ($wishlist->getCustomer() === $this) {
+                $wishlist->setCustomer(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Ticket>
+     */
+    public function getTickets(): Collection
+    {
+        return $this->tickets;
+    }
+
+    public function addTicket(Ticket $ticket): self
+    {
+        if (!$this->tickets->contains($ticket)) {
+            $this->tickets[] = $ticket;
+            $ticket->setCustomer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTicket(Ticket $ticket): self
+    {
+        if ($this->tickets->removeElement($ticket)) {
+            // set the owning side to null (unless already changed)
+            if ($ticket->getCustomer() === $this) {
+                $ticket->setCustomer(null);
             }
         }
 

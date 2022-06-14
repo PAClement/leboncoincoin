@@ -6,6 +6,7 @@ use App\Repository\OrderDetailRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: OrderDetailRepository::class)]
 class OrderDetail
@@ -13,18 +14,22 @@ class OrderDetail
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
+    #[Groups('order:read')]
     private $id;
 
     #[ORM\ManyToOne(targetEntity: Order::class, inversedBy: 'orderDetails')]
     private $order;
 
     #[ORM\ManyToOne(targetEntity: Product::class, inversedBy: 'orderDetails')]
+    #[Groups('order:read')]
     private $product;
 
     #[ORM\Column(type: 'float')]
+    #[Groups('order:read')]
     private $price;
 
     #[ORM\Column(type: 'integer')]
+    #[Groups('order:read')]
     private $quantity;
 
     public function __construct()
@@ -41,23 +46,15 @@ class OrderDetail
     /**
      * @return Collection<int, order>
      */
-    public function getOrder(): Collection
+    public function getOrder()
     {
         return $this->order;
     }
 
-    public function addOrder(order $Order): self
+    public function setOrder($order)
     {
-        if (!$this->order->contains($Order)) {
-            $this->order[] = $Order;
-        }
 
-        return $this;
-    }
-
-    public function removeOrder(order $Order): self
-    {
-        $this->order->removeElement($Order);
+        $this->order = $order;
 
         return $this;
     }
@@ -65,24 +62,15 @@ class OrderDetail
     /**
      * @return Collection<int, product>
      */
-    public function getProduct(): Collection
+    public function getProduct()
     {
         return $this->product;
     }
 
-    public function addProduct(product $Product): self
+    public function setProduct($product)
     {
-        if (!$this->product->contains($Product)) {
-            $this->product[] = $Product;
-        }
 
-        return $this;
-    }
-
-    public function removeProduct(product $Product): self
-    {
-        $this->product->removeElement($Product);
-
+        $this->product = $product;
         return $this;
     }
 

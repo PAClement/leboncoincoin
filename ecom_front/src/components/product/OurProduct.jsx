@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import Loader from '../utilsGlobal/Loader';
 import Card from './Card';
 
 const OurProduct = () => {
@@ -27,12 +28,7 @@ const OurProduct = () => {
       <h2 className='text-2xl'>Nos articles : </h2>
       <div className='flex justify-center flex-wrap'>
         {loader ? (
-          <div className="flex justify-center items-center mt-10 py-5">
-            <div className="spinner-border animate-spin inline-block w-10 h-30 border-2 rounded-full border-black" role="status">
-
-            </div>
-            <p className='text-black ml-2'>Chargement de nos articles</p>
-          </div>
+          <Loader title="Chargement de nos articles" />
         ) : (
           <>
             {

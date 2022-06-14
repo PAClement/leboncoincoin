@@ -28,10 +28,7 @@ class Employee
     private $password;
 
     #[ORM\ManyToOne(targetEntity: Role::class, inversedBy: 'employees')]
-    private $id_role;
-
-    #[ORM\OneToMany(mappedBy: 'id_employee', targetEntity: Message::class)]
-    private $messages;
+    private $role;
 
     public function __construct()
     {
@@ -91,44 +88,14 @@ class Employee
         return $this;
     }
 
-    public function getIdRole(): ?role
+    public function getRole(): ?role
     {
-        return $this->id_role;
+        return $this->role;
     }
 
-    public function setIdRole(?role $id_role): self
+    public function setRole(?role $role): self
     {
-        $this->id_role = $id_role;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Message>
-     */
-    public function getMessages(): Collection
-    {
-        return $this->messages;
-    }
-
-    public function addMessage(Message $message): self
-    {
-        if (!$this->messages->contains($message)) {
-            $this->messages[] = $message;
-            $message->setIdEmployee($this);
-        }
-
-        return $this;
-    }
-
-    public function removeMessage(Message $message): self
-    {
-        if ($this->messages->removeElement($message)) {
-            // set the owning side to null (unless already changed)
-            if ($message->getIdEmployee() === $this) {
-                $message->setIdEmployee(null);
-            }
-        }
+        $this->role = $role;
 
         return $this;
     }

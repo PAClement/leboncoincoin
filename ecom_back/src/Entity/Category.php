@@ -18,7 +18,7 @@ class Category
     private $id;
 
     #[ORM\Column(type: 'string', length: 20)]
-    #[Groups(['product:read', 'cart:read', 'utils:read'])]
+    #[Groups(['product:read', 'cart:read', 'utils:read', 'category:read'])]
     private $name;
 
     #[ORM\OneToMany(mappedBy: 'category', targetEntity: Product::class)]

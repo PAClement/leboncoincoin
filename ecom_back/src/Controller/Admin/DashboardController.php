@@ -6,10 +6,12 @@ use App\Entity\Category;
 use App\Entity\Customer;
 use App\Entity\Employee;
 use App\Entity\Marque;
+use App\Entity\Message;
 use App\Entity\Order;
 use App\Entity\Product;
 use App\Entity\Role;
 use App\Entity\Transporteur;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -25,7 +27,7 @@ class DashboardController extends AbstractDashboardController
     public function index(): Response
     {
         $routeBuilder = $this->container->get(AdminUrlGenerator::class);
-        return $this->redirect($routeBuilder->setController(CategoryCrudController::class)->generateUrl());
+        return $this->redirect($routeBuilder->setController(OrderCrudController::class)->generateUrl());
     }
 
     public function configureDashboard(): Dashboard
@@ -48,12 +50,20 @@ class DashboardController extends AbstractDashboardController
             yield MenuItem::linkToCrud('Category', 'fas fa-list', Category::class),
             yield MenuItem::linkToCrud('Marque', 'fa-solid fa-code-branch', Marque::class),
             yield MenuItem::linkToCrud('Transporteur', 'fa-solid fa-truck-fast', Transporteur::class),
-            yield MenuItem::linkToCrud('Product', 'fa-solid fa-box-open', Product::class),
+
+            yield MenuItem::subMenu('Product', 'fas fa-bars')->setSubItems([
+
+                MenuItem::linkToCrud('Show Product', 'fa-solid fa-eye', Product::class),
+                MenuItem::linkToCrud('Create Product', 'fa-solid fa-box-open', Product::class)->setAction(Crud::PAGE_NEW),
+            ]),
 
             yield MenuItem::section('Users'),
             yield MenuItem::linkToCrud('Customers', 'fa-solid fa-users', Customer::class),
             yield MenuItem::linkToCrud('Employee', 'fa-solid fa-user-shield', Employee::class),
             yield MenuItem::linkToCrud('Role', 'fa-solid fa-screwdriver-wrench', Role::class),
+
+            yield MenuItem::section('Message'),
+            yield MenuItem::linkToCrud('Message', 'fas fa-message', Message::class),
             // yield MenuItem::linkToCrud('The Label', 'fas fa-list', EntityClass::class);
         ];
     }

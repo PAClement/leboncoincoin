@@ -10,7 +10,6 @@ const Connexion = () => {
   const navigation = useNavigate();
 
   const [error, setError] = useState("");
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 

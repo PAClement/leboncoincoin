@@ -55,7 +55,7 @@ class Role
     {
         if (!$this->employees->contains($employee)) {
             $this->employees[] = $employee;
-            $employee->setIdRole($this);
+            $employee->setRole($this);
         }
 
         return $this;
@@ -65,11 +65,16 @@ class Role
     {
         if ($this->employees->removeElement($employee)) {
             // set the owning side to null (unless already changed)
-            if ($employee->getIdRole() === $this) {
-                $employee->setIdRole(null);
+            if ($employee->getRole() === $this) {
+                $employee->setRole(null);
             }
         }
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->name;
     }
 }

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import Loader from '../utilsGlobal/Loader';
 import Card from './Card';
 
 const LastProduct = () => {
@@ -27,12 +28,7 @@ const LastProduct = () => {
       <h2 className='text-2xl'>Derniers ajouts : </h2>
       <div className='mb-10 overflow-x-scroll whitespace-nowrap box-border items-baseline'>
         {loader ? (
-          <div className="flex justify-center items-center mt-10 py-5">
-            <div className="spinner-border animate-spin inline-block w-10 h-30 border-2 rounded-full border-black" role="status">
-
-            </div>
-            <p className='text-black ml-2'>Chargement de nos derniers produits</p>
-          </div>
+          <Loader title="Chargement de nos derniers produits" />
         ) : (
           <>
             {

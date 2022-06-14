@@ -1,26 +1,11 @@
 import React from 'react';
-import Card from '../components/product/Card';
-import Footer from '../components/includes/Footer';
-import Header from '../components/includes/Header';
 
 const Advanced = () => {
 
   const inputCss = "form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer";
 
-  const final = [];
-  let i = 0;
-
-  while (i < 15) {
-
-    final.push(<Card />);
-
-    i++;
-  }
-
   return (
     <>
-      <Header />
-
       <section className='flex items-start'>
         <div className='w-1/4 bgColor2 py-5 pb-32'>
           <h2 className='text-4xl text-center text-white mt-5'>FILTER BY</h2>
@@ -90,10 +75,8 @@ const Advanced = () => {
           </ul>
         </div>
         <div className='flex justify-center flex-wrap w-3/4'>
-          {final}
         </div>
       </section>
-      <Footer />
     </>
   );
 };

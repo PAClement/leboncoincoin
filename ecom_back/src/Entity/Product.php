@@ -14,15 +14,15 @@ class Product
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    #[Groups(['product:read', 'cart:read'])]
+    #[Groups(['product:read', 'cart:read', 'order:read', 'wishlist:read'])]
     private $id;
 
     #[ORM\Column(type: 'string', length: 50)]
-    #[Groups(['product:read', 'cart:read'])]
+    #[Groups(['product:read', 'cart:read', 'order:read', 'wishlist:read'])]
     private $name;
 
     #[ORM\Column(type: 'string', length: 25)]
-    #[Groups(['product:read', 'cart:read'])]
+    #[Groups(['product:read', 'cart:read', 'order:read', 'wishlist:read'])]
     private $ref;
 
     #[ORM\Column(type: 'text')]
@@ -30,15 +30,15 @@ class Product
     private $description;
 
     #[ORM\Column(type: 'integer')]
-    #[Groups(['product:read', 'cart:read'])]
+    #[Groups(['product:read', 'cart:read', 'wishlist:read'])]
     private $quantity;
 
     #[ORM\Column(type: 'float')]
-    #[Groups(['product:read', 'cart:read'])]
+    #[Groups(['product:read', 'cart:read', 'wishlist:read'])]
     private $price;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Groups(['product:read', 'cart:read'])]
+    #[Groups(['product:read', 'cart:read', 'order:read', 'wishlist:read'])]
     private $photo;
 
     #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'products')]
@@ -49,10 +49,14 @@ class Product
     #[Groups(['product:read', 'cart:read'])]
     private $marque;
 
+    #[ORM\OneToMany(mappedBy: 'product', targetEntity: Wishlist::class)]
+    private $wishlists;
+
     public function __construct()
     {
         $this->orderDetails = new ArrayCollection();
         $this->carts = new ArrayCollection();
+        $this->wishlists = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -156,30 +160,33 @@ class Product
         return $this;
     }
 
-    // /**
-    //  * @return Collection<int, OrderDetail>
-    //  */
-    // public function getOrderDetails(): Collection
-    // {
-    //     return $this->orderDetails;
-    // }
+    /**
+     * @return Collection<int, Wishlist>
+     */
+    public function getWishlists(): Collection
+    {
+        return $this->wishlists;
+    }
 
-    // public function addOrderDetail(OrderDetail $orderDetail): self
-    // {
-    //     if (!$this->orderDetails->contains($orderDetail)) {
-    //         $this->orderDetails[] = $orderDetail;
-    //         $orderDetail->addProduct($this);
-    //     }
+    public function addWishlist(Wishlist $wishlist): self
+    {
+        if (!$this->wishlists->contains($wishlist)) {
+            $this->wishlists[] = $wishlist;
+            $wishlist->setProduct($this);
+        }
 
-    //     return $this;
-    // }
+        return $this;
+    }
 
-    // public function removeOrderDetail(OrderDetail $orderDetail): self
-    // {
-    //     if ($this->orderDetails->removeElement($orderDetail)) {
-    //         $orderDetail->removeProduct($this);
-    //     }
+    public function removeWishlist(Wishlist $wishlist): self
+    {
+        if ($this->wishlists->removeElement($wishlist)) {
+            // set the owning side to null (unless already changed)
+            if ($wishlist->getProduct() === $this) {
+                $wishlist->setProduct(null);
+            }
+        }
 
-    //     return $this;
-    // }
+        return $this;
+    }
 }

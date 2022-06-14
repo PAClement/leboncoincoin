@@ -6,6 +6,7 @@ use App\Repository\OrderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: OrderRepository::class)]
 #[ORM\Table(name: '`order`')]
@@ -14,24 +15,30 @@ class Order
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
+    #[Groups('order:read')]
     private $id;
 
-    #[ORM\Column(type: 'string', length: 10)]
+    #[ORM\Column(type: 'string', length: 25)]
+    #[Groups('order:read')]
     private $state;
 
     #[ORM\Column(type: 'string', length: 25)]
+    #[Groups('order:read')]
     private $mode;
 
     #[ORM\Column(type: 'datetime_immutable')]
+    #[Groups('order:read')]
     private $date;
 
     #[ORM\ManyToOne(targetEntity: Customer::class, inversedBy: 'orders')]
     private $client;
 
     #[ORM\ManyToOne(targetEntity: Transporteur::class, inversedBy: 'orders')]
+    #[Groups('order:read')]
     private $transporteur;
 
-    #[ORM\ManyToMany(targetEntity: OrderDetail::class, mappedBy: 'id_order')]
+    #[ORM\OneToMany(targetEntity: OrderDetail::class, mappedBy: 'order')]
+    #[Groups('order:read')]
     private $orderDetails;
 
     public function __construct()
@@ -112,22 +119,22 @@ class Order
         return $this->orderDetails;
     }
 
-    public function addOrderDetail(OrderDetail $orderDetail): self
-    {
-        if (!$this->orderDetails->contains($orderDetail)) {
-            $this->orderDetails[] = $orderDetail;
-            $orderDetail->addOrder($this);
-        }
+    // public function addOrderDetail(OrderDetail $orderDetail): self
+    // {
+    //     if (!$this->orderDetails->contains($orderDetail)) {
+    //         $this->orderDetails[] = $orderDetail;
+    //         $orderDetail->addOrder($this);
+    //     }
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
-    public function removeOrderDetail(OrderDetail $orderDetail): self
-    {
-        if ($this->orderDetails->removeElement($orderDetail)) {
-            $orderDetail->removeOrder($this);
-        }
+    // public function removeOrderDetail(OrderDetail $orderDetail): self
+    // {
+    //     if ($this->orderDetails->removeElement($orderDetail)) {
+    //         $orderDetail->removeOrder($this);
+    //     }
 
-        return $this;
-    }
+    //     return $this;
+    // }
 }

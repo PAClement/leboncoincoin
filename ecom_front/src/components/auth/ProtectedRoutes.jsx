@@ -5,15 +5,9 @@ const useAuth = () => {
 
   const user = localStorage.getItem('user')
 
-  if (user) {
+  return user ? true : false;
 
-    return true
-  } else {
-
-    return false
-  }
 }
-
 
 const ProtectedRoutes = () => {
 

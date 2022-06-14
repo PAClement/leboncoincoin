@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\MessageRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: MessageRepository::class)]
 class Message
@@ -11,38 +12,27 @@ class Message
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
+    #[Groups(['ticket:read'])]
     private $id;
 
-    #[ORM\Column(type: 'string', length: 20)]
-    private $type;
-
     #[ORM\Column(type: 'text')]
+    #[Groups(['ticket:read'])]
     private $message;
 
-    #[ORM\Column(type: 'integer', nullable: true)]
-    private $precedant_id;
+    #[ORM\ManyToOne(targetEntity: Ticket::class, inversedBy: 'historical')]
+    private $ticket;
 
-    #[ORM\ManyToOne(targetEntity: Customer::class, inversedBy: 'messages')]
-    private $id_client;
+    #[ORM\Column(type: 'datetime_immutable')]
+    #[Groups(['ticket:read'])]
+    private $sendAt;
 
-    #[ORM\ManyToOne(targetEntity: Employee::class, inversedBy: 'messages')]
-    private $id_employee;
+    #[ORM\Column(type: 'boolean')]
+    #[Groups(['ticket:read'])]
+    private $isCustomer;
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getType(): ?string
-    {
-        return $this->type;
-    }
-
-    public function setType(string $type): self
-    {
-        $this->type = $type;
-
-        return $this;
     }
 
     public function getMessage(): ?string
@@ -57,38 +47,38 @@ class Message
         return $this;
     }
 
-    public function getPrecedantId(): ?int
+    public function getTicket(): ?Ticket
     {
-        return $this->precedant_id;
+        return $this->ticket;
     }
 
-    public function setPrecedantId(?int $precedant_id): self
+    public function setTicket(?Ticket $ticket): self
     {
-        $this->precedant_id = $precedant_id;
+        $this->ticket = $ticket;
 
         return $this;
     }
 
-    public function getIdClient(): ?customer
+    public function getSendAt(): ?\DateTimeImmutable
     {
-        return $this->id_client;
+        return $this->sendAt;
     }
 
-    public function setIdClient(?customer $id_client): self
+    public function setSendAt(\DateTimeImmutable $sendAt): self
     {
-        $this->id_client = $id_client;
+        $this->sendAt = $sendAt;
 
         return $this;
     }
 
-    public function getIdEmployee(): ?employee
+    public function getIsCustomer(): ?bool
     {
-        return $this->id_employee;
+        return $this->isCustomer;
     }
 
-    public function setIdEmployee(?employee $id_employee): self
+    public function setIsCustomer(bool $isCustomer): self
     {
-        $this->id_employee = $id_employee;
+        $this->isCustomer = $isCustomer;
 
         return $this;
     }

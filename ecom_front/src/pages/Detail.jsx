@@ -1,16 +1,17 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import Footer from '../components/includes/Footer';
-import Header from '../components/includes/Header';
 import AddCart from '../components/product/AddCart';
+import Loader from '../components/utilsGlobal/Loader';
 
 const Detail = () => {
 
+  const user = localStorage.getItem('user');
   const [data, setData] = useState({});
   const [loader, setLoader] = useState(true);
 
   let { id } = useParams();
+
 
   useEffect(() => {
 
@@ -28,15 +29,9 @@ const Detail = () => {
 
   return (
     <>
-      <Header />
       <section className='mt-10 mx-52 flex detail'>
         {loader ? (
-          <div className="flex justify-center items-center mt-10 py-5">
-            <div className="spinner-border animate-spin inline-block w-10 h-30 border-2 rounded-full border-black" role="status">
-
-            </div>
-            <p className='text-black ml-2'>Chargement du produit</p>
-          </div>
+          <Loader title="Chargement du produit" />
         ) : (
           <>
             <div className='flex justify-center mr-10 w-2/5'>
@@ -61,13 +56,20 @@ const Detail = () => {
                   {data.description}
                 </p>
               </div>
-              <AddCart key={data.id} product={data.id} />
+              {user ? (
+                <>
+                  <AddCart key={data.id} product={data.id} />
+                </>
+              ) : (
+                <>
+                  <h4 className='font-bold'>Un compte est nécessaire afin d'ajouter un produit au panier</h4>
+                </>
+              )}
             </div>
           </>
         )}
 
       </section>
-      <Footer />
     </>
   );
 };

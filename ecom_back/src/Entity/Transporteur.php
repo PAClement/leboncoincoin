@@ -14,18 +14,16 @@ class Transporteur
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
+    #[Groups(['transporteur:read'])]
     private $id;
 
     #[ORM\Column(type: 'string', length: 50)]
-    #[Groups(['utils:read'])]
+    #[Groups(['transporteur:read', 'order:read'])]
     private $name;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    #[Groups(['utils:read'])]
+    #[Groups(['transporteur:read', 'order:read'])]
     private $logo;
-
-    #[ORM\OneToMany(mappedBy: 'transporteur', targetEntity: Order::class)]
-    private $orders;
 
     public function __construct()
     {
@@ -57,36 +55,6 @@ class Transporteur
     public function setLogo(?string $logo): self
     {
         $this->logo = $logo;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Order>
-     */
-    public function getOrders(): Collection
-    {
-        return $this->orders;
-    }
-
-    public function addOrder(Order $order): self
-    {
-        if (!$this->orders->contains($order)) {
-            $this->orders[] = $order;
-            $order->setTransporteur($this);
-        }
-
-        return $this;
-    }
-
-    public function removeOrder(Order $order): self
-    {
-        if ($this->orders->removeElement($order)) {
-            // set the owning side to null (unless already changed)
-            if ($order->getTransporteur() === $this) {
-                $order->setTransporteur(null);
-            }
-        }
 
         return $this;
     }

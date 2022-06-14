@@ -1,9 +1,9 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import Footer from '../components/includes/Footer';
-import Header from '../components/includes/Header';
-import CartCard from '../components/utils/CartCard';
+import CartCard from '../components/utilsGlobal/CartCard';
+
+import Loader from '../components/utilsGlobal/Loader';
 
 const Cart = () => {
 
@@ -102,17 +102,11 @@ const Cart = () => {
 
   return (
     <>
-      <Header />
       <section className='mx-3 mt-10 flex items-start'>
         <div className='w-3/4 mr-20'>
           <p className='text-3xl border-b-2 border-gray-600 pb-3'>Votre panier</p>
           {loader ? (
-            <div className="flex justify-center items-center mt-10 py-5">
-              <div className="spinner-border animate-spin inline-block w-10 h-30 border-2 rounded-full border-black" role="status">
-
-              </div>
-              <p className='text-black ml-2'>Chargement de votre panier</p>
-            </div>
+            <Loader title="Chargement de votre panier" />
           ) : (
             <>
               {cartList.length === 0 ? (
@@ -196,12 +190,7 @@ const Cart = () => {
         {cartList.length !== 0 &&
           <div className='w-2/4 border-l-2 border-black'>
             {loader ? (
-              <div className="flex justify-center items-center mt-10 py-5">
-                <div className="spinner-border animate-spin inline-block w-10 h-30 border-2 rounded-full border-black" role="status">
-
-                </div>
-                <p className='text-black ml-2'>Chargement de votre panier</p>
-              </div>
+              <Loader title="Chargement de votre panier" />
             ) : (
               <div className='p-2'>
                 <div>
@@ -233,7 +222,6 @@ const Cart = () => {
         }
 
       </section>
-      <Footer />
     </>
   );
 };

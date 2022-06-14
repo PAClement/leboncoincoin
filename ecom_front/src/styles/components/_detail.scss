@@ -1,24 +1,22 @@
-.detail {
-  .cartBtn {
-    border: 2px solid $color-1;
-    background-color: white;
-    color: $color-1;
+.cartBtn {
+  border: 2px solid $color-1;
+  background-color: white;
+  color: $color-1;
 
-    &:hover {
-      background-color: $color-1;
-      color: white;
-    }
-  }
-
-  .wishBtn {
-
+  &:hover {
     background-color: $color-1;
-    border: 2px solid $color-1;
+    color: white;
+  }
+}
 
-    &:hover {
+.wishBtn {
 
-      background-color: rgba(255, 122, 0, 0.5);
-      border: 2px solid rgba(255, 122, 0, 0.5);
-    }
+  background-color: $color-1;
+  border: 2px solid $color-1;
+
+  &:hover {
+
+    background-color: rgba(255, 122, 0, 0.5);
+    border: 2px solid rgba(255, 122, 0, 0.5);
   }
 }
